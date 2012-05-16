@@ -150,6 +150,7 @@ private:
 void* PThread::PThreadRunner(void* aThread) {
   PThread* p = static_cast<PThread*>(aThread);
   p->CallRun();
+  return 0;
 }
 
 Thread* Thread::Create(Runnable *aRunnable) {
@@ -182,8 +183,9 @@ public:
 class Waiter : public Runnable {
 public:
   Waiter(Thread* aSumThread)
-    : mSumThread(aSumThread)
-    , mWasRun(false) {}
+    : mWasRun(false)
+    , mSumThread(aSumThread)
+  {}
   virtual void Run() {
     mSumThread->Join();
     mWasRun = true;

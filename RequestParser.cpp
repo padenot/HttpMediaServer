@@ -40,13 +40,13 @@
 static int gCount = 0;
 
 RequestParser::RequestParser()
-  : start(0),
+  : id(gCount++),
+    start(0),
     complete(false),
     method(UNKNOWN),
     rangeStart(-1),
     rangeEnd(-1),
-    hasRange(false),
-    id(gCount++)
+    hasRange(false)
 {
 }
 
@@ -120,7 +120,7 @@ bool RequestParser::TestRange(bool expected,
   int64_t start=-2, end=-2;
   bool r = ParseRange(s, start, end);
   return r == expected &&
-          (!expected || start == expStart && end == expEnd);
+          (!expected || (start == expStart && end == expEnd));
 }
 
 void RequestParser::Parse(const string& s) {

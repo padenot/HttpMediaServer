@@ -107,13 +107,13 @@ private:
 
 static bool gRunning = true;
 
-void sighandler(int signal)
+void sighandler(int /* signal */)
 {
   gRunning = false;
 };
 
 
-int main(int argc, char* argv[])
+int main(int /* argc */, char** /* argv */)
 {
 #ifdef _DEBUG
   RequestParser::Test();

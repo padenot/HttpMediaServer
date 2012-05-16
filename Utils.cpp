@@ -34,7 +34,7 @@
 
 string ToString(int64_t i) {
   char buf[256];
-  snprintf(buf, 256, "%lld", i);
+  snprintf(buf, 256, "%ld", i);
   return string(buf);
 }
 

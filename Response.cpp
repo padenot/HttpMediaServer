@@ -100,8 +100,8 @@ static const char* gContentTypes[][2] = {
 
 Response::Response(RequestParser p)
   : parser(p),
-    mode(INTERNAL_ERROR),
     fileLength(-1),
+    mode(INTERNAL_ERROR),
     file(0),
     rangeStart(0),
     rangeEnd(0),
@@ -184,11 +184,13 @@ bool Response::SendHeaders(Socket* aSocket) {
   }
   //headers.append("Last-Modified: Wed, 10 Nov 2009 04:58:08 GMT\r\n");
 
-  headers.append("Content-Type: ");
-  if (parser.HasSpecifiedMimeType()) {
-    headers.append(parser.GetSpecifiedMimeType());
-  } else {
-    headers.append(ExtractContentType(path, mode));
+  if (! ContainsKey(parser.GetParams(), "nomime")) {
+    headers.append("Content-Type: ");
+    if (parser.HasSpecifiedMimeType()) {
+      headers.append(parser.GetSpecifiedMimeType());
+    } else {
+      headers.append(ExtractContentType(path, mode));
+    }
   }
   headers.append("\r\n\r\n");
 
@@ -234,8 +236,6 @@ bool Response::SendBody(Socket *aSocket) {
       file = 0;
       return false;
     }
-
-    int64_t tell = ftell64(file);
 
     // Transmit the next segment.
     char* buf = new char[len];
@@ -299,7 +299,7 @@ bool Response::SendBody(Socket *aSocket) {
       response << "<!DOCTYPE html>\n<ul>";
       string href;
       while (enumerator->next(href)) {
-        if (href == "." || path == "." && href == "..") {
+        if (href == "." || (path == "." && href == "..")) {
           continue;
         }
         response << "<li><a href=\"" << path + "/" + href;

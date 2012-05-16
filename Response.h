@@ -66,8 +66,8 @@ private:
 
   static string GetDate();
 
-  int64_t fileLength;
   RequestParser parser;
+  int64_t fileLength;
   eMode mode;
   string path;
   FILE* file;
