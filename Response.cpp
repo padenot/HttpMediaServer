@@ -87,6 +87,8 @@ static const char* gContentTypes[][2] = {
   {"ogg", "video/ogg"},
   {"oga", "audio/ogg"},
   {"webm", "video/webm"},
+  {"mp3", "audio/mpeg"},
+  {"mp4", "video/mp4"},
   {"wav", "audio/x-wav"},
   {"html", "text/html; charset=utf-8"},
   {"txt", "text/plain; charset=utf-8"},
