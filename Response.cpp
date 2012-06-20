@@ -193,8 +193,10 @@ bool Response::SendHeaders(Socket* aSocket) {
     } else {
       headers.append(ExtractContentType(path, mode));
     }
+    headers.append("\r\n\r\n");
+  } else {
+    headers.append("\r\n");
   }
-  headers.append("\r\n\r\n");
 
   cout << "Sending Headers " << parser.id << std::endl << headers;
 

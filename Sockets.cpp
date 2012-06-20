@@ -172,6 +172,7 @@ int Socket::Shutdown() {
 #include <sys/socket.h>
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <errno.h>
 
 #define SOCKET_ERROR -1
 
@@ -247,7 +248,10 @@ Socket* UnixSocket::Accept() {
 
 void UnixSocket::Close() {
   if (mSocket != 0) {
-    close(mSocket);
+    if (close(mSocket)) {
+      perror("Could not close socket properly.");
+      exit(1);
+    }
     mSocket = 0;
   }
 }
